@@ -13,7 +13,6 @@ const routes = {
   '/register': new RegisterPage(),
   '/add-story': new AddStoryPage(),
   '/stories/:id': new DetailStoryPage(),
-  '/stories/:id': new DetailStoryPage(),
   '/saved-stories': new SavedStoriesPage(),
 };
 

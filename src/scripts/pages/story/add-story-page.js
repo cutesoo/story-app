@@ -127,13 +127,13 @@ class AddStoryPageView {
       const leafletCss = document.createElement('link');
       leafletCss.rel = 'stylesheet';
       leafletCss.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-      leafletCss.integrity = 'sha256-p4NxAo9TchQih4IgBtkGAz3LHBXbgAsHvOqNyUPQo8="';
+      leafletCss.integrity = 'sha256-p4NxAo9TchQih4IgBtkGAz3LHBXbgAsHvOqNyUPQo8=';
       leafletCss.crossOrigin = '';
       document.head.appendChild(leafletCss);
 
       const leafletJs = document.createElement('script');
       leafletJs.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-      leafletJs.integrity = 'sha256-20nEFh3ZzV8K3J3jFmGz+I7T6k/gA1L2/62m6D9W3YQ="';
+      leafletJs.integrity = 'sha256-20nEFh3ZzV8K3J3jFmGz+I7T6k/gA1L2/62m6D9W3YQ=';
       leafletJs.crossOrigin = '';
       leafletJs.onload = () => this._initializeMap();
       document.body.appendChild(leafletJs);

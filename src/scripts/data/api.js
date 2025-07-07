@@ -93,7 +93,7 @@ class StoryApi {
       stories = responseJson.listStory;
       await storyDb.deleteAllFetchedStories();
       await storyDb.putAllFetchedStories(stories);
-      console.log('Stories fetched from network and cached in IndexedDB (fetched-stories).');
+      console.log('Stories fetched from network and cached in IndexedDB.');
       return stories;
 
     } catch (error) {
@@ -106,7 +106,7 @@ class StoryApi {
       console.log('Attempting to retrieve stories from IndexedDB (fetched-stories)...');
       const cachedStories = await storyDb.getAllFetchedStories();
       if (cachedStories && cachedStories.length > 0) {
-        console.log('Stories retrieved from IndexedDB (fetched-stories).');
+        console.log('Stories retrieved from IndexedDB.');
         return cachedStories;
       } else {
         throw new Error('Tidak ada koneksi internet dan tidak ada cerita yang tersimpan secara offline.');
@@ -116,23 +116,31 @@ class StoryApi {
 
   async getDetailStory(id) {
     const requestUrl = `${this.#baseUrl}/stories/${id}`;
+
     try {
       const response = await fetch(requestUrl, {
-        headers: { 'Authorization': `Bearer ${this.#token}`, },
+        headers: {
+          'Authorization': `Bearer ${this.#token}`,
+        },
       });
       const responseJson = await response.json();
-      if (responseJson.error) { throw new Error(responseJson.message); }
+      if (responseJson.error) {
+        throw new Error(responseJson.message);
+      }
       await storyDb.putAllFetchedStories([responseJson.story]);
       return responseJson.story;
+
     } catch (error) {
       console.error(`Failed to fetch detail story ${id} from network:`, error);
+
       if (error.message.includes('Authentication is required') || error.message.includes('Unauthorized')) {
         throw error;
       }
+
       console.log(`Attempting to retrieve detail story ${id} from IndexedDB (fetched-stories)...`);
       const cachedStory = await storyDb.getFetchedStory(id);
       if (cachedStory) {
-        console.log(`Detail story ${id} retrieved from IndexedDB (fetched-stories).`);
+        console.log(`Detail story ${id} retrieved from IndexedDB.`);
         return cachedStory;
       } else {
         throw new Error('Tidak ada koneksi internet dan detail cerita tidak tersimpan secara offline.');

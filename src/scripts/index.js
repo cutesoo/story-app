@@ -1,7 +1,7 @@
 import 'regenerator-runtime/runtime';
 import '../styles/styles.css';
 import App from './pages/app';
-import { getActiveRoute, parseActivePathname } from './routes/url-parser';
+import { getActiveRoute } from './routes/url-parser';
 import routes from './routes/routes';
 
 const app = new App({

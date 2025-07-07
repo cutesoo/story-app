@@ -76,8 +76,8 @@ self.addEventListener('push', (event) => {
   const title = data.title || 'Story App Notification';
   const options = {
     body: data.options.body || 'You have a new notification.',
-    icon: '/favicon.png',
-    badge: '/favicon.png',
+    icon: '/story-app/favicon.png',
+    badge: '/story-app/favicon.png',
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
@@ -87,19 +87,6 @@ self.addEventListener('notificationclick', (event) => {
   console.log('Notification clicked', event);
   event.notification.close();
   event.waitUntil(
-    clients.openWindow('/')
+    clients.openWindow('/story-app/#/')
   );
 });
-
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding)
-    .replace(/\-/g, '+')
-    .replace(/_/g, '/');
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}

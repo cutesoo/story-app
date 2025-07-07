@@ -1,66 +1,58 @@
 import { openDB } from 'idb';
+import CONFIG from '../config';
 
-const DATABASE_NAME = 'story-app-db';
-const DATABASE_VERSION = 1;
-const OBJECT_STORE_NAME = 'saved-stories';
+const DATABASE_NAME = CONFIG.DATABASE_NAME;
+const DATABASE_VERSION = CONFIG.DATABASE_VERSION;
+const OBJECT_STORE_NAMES = CONFIG.OBJECT_STORE_NAMES;
 
 const storyDb = {
   async database() {
     return openDB(DATABASE_NAME, DATABASE_VERSION, {
       upgrade(db) {
-        db.createObjectStore(OBJECT_STORE_NAME, { keyPath: 'id' });
-        db.createObjectStore('fetched-stories', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains(OBJECT_STORE_NAMES.SAVED_STORIES)) {
+          db.createObjectStore(OBJECT_STORE_NAMES.SAVED_STORIES, { keyPath: 'id' });
+        }
+        if (!db.objectStoreNames.contains(OBJECT_STORE_NAMES.FETCHED_STORIES)) {
+          db.createObjectStore(OBJECT_STORE_NAMES.FETCHED_STORIES, { keyPath: 'id' });
+        }
       },
     });
   },
 
-  async getSavedStory(id) {
-    const db = await this.database();
-    return db.get(OBJECT_STORE_NAME, id);
-  },
-
   async getAllSavedStories() {
     const db = await this.database();
-    return db.getAll(OBJECT_STORE_NAME);
+    return db.getAll(OBJECT_STORE_NAMES.SAVED_STORIES);
   },
-
-  async putSavedStory(story) {
-    if (!Object.hasOwn(story, 'id')) {
-      throw new Error('`id` is required to save a story.');
-    }
+  async getSavedStory(id) {
     const db = await this.database();
-    return db.put(OBJECT_STORE_NAME, story);
+    return db.get(OBJECT_STORE_NAMES.SAVED_STORIES, id);
   },
-
+  async putSavedStory(story) {
+    const db = await this.database();
+    return db.put(OBJECT_STORE_NAMES.SAVED_STORIES, story);
+  },
   async deleteSavedStory(id) {
     const db = await this.database();
-    return db.delete(OBJECT_STORE_NAME, id);
-  },
-
-  async getFetchedStory(id) {
-    const db = await this.database();
-    return db.get('fetched-stories', id);
-  },
-
-  async putAllFetchedStories(stories) {
-    const db = await this.database();
-    const tx = db.transaction('fetched-stories', 'readwrite');
-    stories.forEach((story) => {
-      tx.store.put(story);
-    });
-    return tx.done;
-  },
-
-  async deleteAllFetchedStories() {
-    const db = await this.database();
-    const tx = db.transaction('fetched-stories', 'readwrite');
-    tx.store.clear();
-    return tx.done;
+    return db.delete(OBJECT_STORE_NAMES.SAVED_STORIES, id);
   },
 
   async getAllFetchedStories() {
     const db = await this.database();
-    return db.getAll('fetched-stories');
+    return db.getAll(OBJECT_STORE_NAMES.FETCHED_STORIES);
+  },
+  async getFetchedStory(id) {
+    const db = await this.database();
+    return db.get(OBJECT_STORE_NAMES.FETCHED_STORIES, id);
+  },
+  async putAllFetchedStories(stories) {
+    const db = await this.database();
+    const tx = db.transaction(OBJECT_STORE_NAMES.FETCHED_STORIES, 'readwrite');
+    stories.forEach(story => tx.store.put(story));
+    return tx.done;
+  },
+  async deleteAllFetchedStories() {
+    const db = await this.database();
+    return db.clear(OBJECT_STORE_NAMES.FETCHED_STORIES);
   },
 };
 

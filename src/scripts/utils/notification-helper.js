@@ -148,7 +148,7 @@ export async function unsubscribe(storyApiInstance) {
 
     if (response.error) {
       alert(failureUnsubscribeMessage);
-      console.error('unsubscribe: API response error:', response);
+      console.error('unsubscribe: API response:', response);
       return;
     }
 
