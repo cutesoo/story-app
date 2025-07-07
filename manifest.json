@@ -2,40 +2,136 @@
   "name": "Story App",
   "short_name": "StoryApp",
   "description": "Aplikasi berbagi cerita dari Dicoding.",
-  "start_url": "/index.html",
+  "start_url": "/story-app/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#87CEEB",
   "icons": [
     {
-      "src": "/favicon.png",
+      "src": "/story-app/favicon.png",
       "sizes": "48x48",
       "type": "image/png"
     },
     {
-      "src": "/favicon.png",
+      "src": "/story-app/favicon.png",
       "sizes": "72x72",
       "type": "image/png"
     },
     {
-      "src": "/favicon.png",
+      "src": "/story-app/favicon.png",
       "sizes": "96x96",
       "type": "image/png"
     },
     {
-      "src": "/favicon.png",
+      "src": "/story-app/favicon.png",
       "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "/favicon.png",
+      "src": "/story-app/favicon.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/favicon.png",
+      "src": "/story-app/favicon.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "/story-app/images/icons/maskable-icon-x48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/story-app/images/icons/maskable-icon-x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/story-app/images/icons/maskable-icon-x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/story-app/images/icons/maskable-icon-x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/story-app/images/icons/maskable-icon-x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/story-app/images/screenshots/CityCareApp_001.png",
+      "sizes": "1920x1043",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/story-app/images/screenshots/CityCareApp_002.png",
+      "sizes": "1920x1043",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/story-app/images/screenshots/CityCareApp_003.png",
+      "sizes": "1920x1043",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/story-app/images/screenshots/CityCareApp_004.png",
+      "sizes": "1080x2280",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/story-app/images/screenshots/CityCareApp_005.png",
+      "sizes": "1080x2280",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/story-app/images/screenshots/CityCareApp_006.png",
+      "sizes": "1080x2280",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Laporan Baru",
+      "short_name": "Baru",
+      "description": "Membuat laporan kerusakan baru.",
+      "url": "/story-app/#/add-story",
+      "icons": [
+        {
+          "src": "/story-app/images/icons/add-x512.png",
+          "type": "image/png",
+          "sizes": "512x512"
+        }
+      ]
+    },
+    {
+      "name": "Cerita Tersimpan",
+      "short_name": "Tersimpan",
+      "description": "Lihat daftar cerita tersimpan.",
+      "url": "/story-app/#/saved-stories",
+      "icons": [
+        {
+          "src": "/story-app/images/icons/bookmark-x512.png",
+          "type": "image/png",
+          "sizes": "512x512"
+        }
+      ]
     }
   ]
 }
