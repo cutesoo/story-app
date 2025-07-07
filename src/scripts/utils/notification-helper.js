@@ -1,6 +1,11 @@
 import CONFIG from '../config';
 import StoryApi from '../data/api';
 
+function arrayBufferToBase64(buffer) {
+  const binary = String.fromCharCode.apply(null, new Uint8Array(buffer));
+  return btoa(binary);
+}
+
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
   const base64 = (base64String + padding)
@@ -101,11 +106,13 @@ export async function subscribe(storyApiInstance) {
 
     pushSubscription = await registration.pushManager.subscribe(generateSubscribeOptions());
 
-    const { endpoint, keys } = pushSubscription.toJSON();
+    const { endpoint } = pushSubscription.toJSON();
+    const p256dh = arrayBufferToBase64(pushSubscription.getKey('p256dh'));
+    const auth = arrayBufferToBase64(pushSubscription.getKey('auth'));
 
     const response = await storyApiInstance.subscribeNotification({
       endpoint,
-      keys: { p256dh: btoa(String.fromCharCode.apply(null, new Uint8Array(keys.p256dh))), auth: btoa(String.fromCharCode.apply(null, new Uint8Array(keys.auth))) },
+      keys: { p256dh, auth },
     });
 
     if (response.error) {
