@@ -91,7 +91,7 @@ class StoryApi {
       }
 
       stories = responseJson.listStory;
-      await storyDb.deleteAllStories();
+      await storyDb.deleteAllFetchedStories();
       await storyDb.putAllFetchedStories(stories);
       console.log('Stories fetched from network and cached in IndexedDB (fetched-stories).');
       return stories;
@@ -130,7 +130,7 @@ class StoryApi {
         throw error;
       }
       console.log(`Attempting to retrieve detail story ${id} from IndexedDB (fetched-stories)...`);
-      const cachedStory = await storyDb.getStory(id);
+      const cachedStory = await storyDb.getFetchedStory(id);
       if (cachedStory) {
         console.log(`Detail story ${id} retrieved from IndexedDB (fetched-stories).`);
         return cachedStory;
