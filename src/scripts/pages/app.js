@@ -1,8 +1,7 @@
 import routes from '../routes/routes';
 import { getActiveRoute, parseActivePathname } from '../routes/url-parser';
 import StoryApi from '../data/api';
-import { unsubscribePushNotification } from '../index';
-
+import { unsubscribe } from '../utils/notification-helper';
 class App {
   #content = null;
   #drawerButton = null;
@@ -48,13 +47,13 @@ class App {
     this.#logoutLink.addEventListener('click', async (event) => {
       event.preventDefault();
       if (confirm('Apakah Anda yakin ingin logout? Notifikasi juga akan dinonaktifkan.')) {
-        if ('serviceWorker' in navigator && 'PushManager' in window) {
-          await unsubscribePushNotification(this.#storyApi);
-        }
-        localStorage.removeItem('authToken');
-        this.#storyApi.setAuthToken(null);
-        window.location.hash = '#/login';
-        this._updateAuthLinksVisibility();
+          if ('serviceWorker' in navigator && 'PushManager' in window) {
+              await unsubscribe(this.#storyApi);
+          }
+          localStorage.removeItem('authToken');
+          this.#storyApi.setAuthToken(null);
+          window.location.hash = '#/login';
+          this._updateAuthLinksVisibility();
       }
     });
 

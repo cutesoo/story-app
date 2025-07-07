@@ -420,6 +420,66 @@ header {
     color: #666;
 }
 
+.saved-stories-section {
+  padding-block: 20px;
+}
+
+.saved-stories-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.remove-saved-story-button {
+  padding: 8px 15px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
+  width: fit-content;
+  align-self: flex-end;
+}
+
+.remove-saved-story-button:hover {
+  background-color: #c82333;
+}
+
+.save-actions-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.action-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.2s ease;
+}
+
+.save-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
+
+.remove-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.remove-button:hover {
+  background-color: #c82333;
+}
+
 @media screen and (max-width: 600px) {
   .add-story-section, .auth-section {
     padding: 20px;

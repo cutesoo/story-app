@@ -1,82 +1,73 @@
+import { precacheAndRoute } from 'workbox-precaching';
+import { registerRoute } from 'workbox-routing';
+import { CacheableResponsePlugin } from 'workbox-cacheable-response';
+import { NetworkFirst, CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
+
 const VAPID_PUBLIC_KEY = 'BCCs2eonMI-6H2ctvFaWg-UYdDv387Vno_bzUzALpB442r2lCnsHmtrx8biyPi_E-1fSGABK_Qs_GlvPoJJqxbk';
 
-const CACHE_NAME = 'story-app-v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/favicon.png',
-  '/styles/styles.css',
-  '/app.bundle.js',
-  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
-  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
-];
+precacheAndRoute(self.__WB_MANIFEST);
+
+registerRoute(
+  ({ url, request }) => {
+    return request.destination === 'document' ||
+           request.destination === 'style' ||
+           request.destination === 'script' ||
+           request.destination === 'image';
+  },
+  new CacheFirst({
+    cacheName: 'app-static-cache',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+    ],
+  })
+);
+
+registerRoute(
+  ({ url }) => url.hostname === 'story-api.dicoding.dev',
+  new NetworkFirst({
+    cacheName: 'story-api-cache',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+    ],
+  })
+);
+
+registerRoute(
+  ({ request, url }) => url.hostname === 'story-api.dicoding.dev' && request.destination === 'image',
+  new StaleWhileRevalidate({
+    cacheName: 'story-api-images',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+    ],
+  })
+);
+
+registerRoute(
+  ({ url }) => url.origin === 'https://unpkg.com',
+  new CacheFirst({
+    cacheName: 'unpkg-cache',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+    ],
+  })
+);
 
 self.addEventListener('install', (event) => {
-  console.log('Service Worker: Installing and Caching App Shell');
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(urlsToCache))
-      .then(() => self.skipWaiting())
-      .catch((error) => console.error('Failed to cache during install:', error))
-  );
+  console.log('Service Worker: Installed');
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
   console.log('Service Worker: Activated');
-  event.waitUntil(
-    caches.keys().then((cacheNames) => Promise.all(
-      cacheNames.map((cacheName) => {
-        if (cacheName !== CACHE_NAME) {
-          console.log('Service Worker: Deleting old cache', cacheName);
-          return caches.delete(cacheName);
-        }
-        return null;
-      }),
-    )).then(() => self.clients.claim())
-  );
-});
-
-self.addEventListener('fetch', (event) => {
-  const requestUrl = new URL(event.request.url);
-
-  if (urlsToCache.includes(requestUrl.pathname) || requestUrl.origin === location.origin) {
-    event.respondWith(
-      caches.match(event.request).then((response) => {
-        return response || fetch(event.request);
-      })
-    );
-    return;
-  }
-
-  if (requestUrl.hostname === 'story-api.dicoding.dev') {
-    event.respondWith(
-      fetch(event.request)
-        .then(async (response) => {
-          const responseClone = response.clone();
-          const cache = await caches.open(CACHE_NAME);
-          cache.put(event.request, responseClone);
-          return response;
-        })
-        .catch(async () => {
-          const cachedResponse = await caches.match(event.request);
-          return cachedResponse || new Response('Offline and no cached data available.', { status: 503, statusText: 'Service Unavailable' });
-        })
-    );
-    return;
-  }
-
-  event.respondWith(
-    fetch(event.request)
-      .then(async (response) => {
-        const cache = await caches.open(CACHE_NAME);
-        cache.put(event.request, response.clone());
-        return response;
-      })
-      .catch(async () => {
-        const cachedResponse = await caches.match(event.request);
-        return cachedResponse || new Response('Offline and no cached content available.', { status: 503, statusText: 'Service Unavailable' });
-      })
-  );
+  event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('push', (event) => {

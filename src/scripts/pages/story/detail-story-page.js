@@ -1,7 +1,20 @@
 import StoryApi from '../../data/api';
+import storyDb from '../../data/story-db';
 import { showFormattedDate } from '../../index';
 import { parseActivePathname } from '../../routes/url-parser';
 import CONFIG from '../../config';
+
+function generateSaveButtonTemplate() {
+  return `
+    <button id="saveStoryButton" class="action-button save-button">Simpan Cerita</button>
+  `;
+}
+
+function generateRemoveButtonTemplate() {
+  return `
+    <button id="removeStoryButton" class="action-button remove-button">Buang Cerita</button>
+  `;
+}
 
 class DetailStoryPageView {
   constructor() {
@@ -11,6 +24,7 @@ class DetailStoryPageView {
     this._mapContainer = null;
     this._map = null;
     this._marker = null;
+    this._saveActionsContainer = null;
   }
 
   getTemplate() {
@@ -20,7 +34,7 @@ class DetailStoryPageView {
           <p id="detailLoading" class="loading-indicator">Memuat detail cerita...</p>
           <p id="detailErrorMessage" class="error-message"></p>
         </div>
-      </section>
+        <div id="saveActionsContainer" class="save-actions-container"></div> </section>
     `;
   }
 
@@ -32,6 +46,7 @@ class DetailStoryPageView {
     this._storyDetailContainer = document.getElementById('storyDetail');
     this._loadingIndicator = document.getElementById('detailLoading');
     this._errorMessageElement = document.getElementById('detailErrorMessage');
+    this._saveActionsContainer = document.getElementById('saveActionsContainer');
   }
 
   showLoading() {
@@ -114,19 +129,46 @@ class DetailStoryPageView {
       .bindPopup(`Lokasi cerita dari ${name}`)
       .openPopup();
   }
+
+  renderSaveButton(callback) {
+    this._saveActionsContainer.innerHTML = generateSaveButtonTemplate();
+    document.getElementById('saveStoryButton').addEventListener('click', callback);
+  }
+
+  renderRemoveButton(callback) {
+    this._saveActionsContainer.innerHTML = generateRemoveButtonTemplate();
+    document.getElementById('removeStoryButton').addEventListener('click', callback);
+  }
+
+  showSaveSuccess(message) {
+    alert(message);
+    console.log(message);
+  }
+
+  showSaveFailed(message) {
+    alert(message);
+    console.error(message);
+  }
 }
 
 class DetailStoryPagePresenter {
-  constructor(model, view) {
+  #storyId = null;
+  #currentStoryData = null;
+
+  constructor(model, dbModel, view) {
     this._model = model;
+    this._dbModel = dbModel;
     this._view = view;
   }
 
   async loadStoryDetail(storyId) {
+    this.#storyId = storyId;
     this._view.showLoading();
     try {
       const story = await this._model.getDetailStory(storyId);
+      this.#currentStoryData = story;
       this._view.showStoryDetail(story);
+      await this.renderSaveRemoveButton();
     } catch (error) {
       this._view.showError(error.message);
       if (error.message.includes('Authentication is required') || error.message.includes('Unauthorized')) {
@@ -136,6 +178,43 @@ class DetailStoryPagePresenter {
       }
     } finally {
       this._view.hideLoading();
+    }
+  }
+
+  async renderSaveRemoveButton() {
+    const isSaved = await this.isStorySaved();
+    if (isSaved) {
+      this._view.renderRemoveButton(this.handleRemoveStory.bind(this));
+    } else {
+      this._view.renderSaveButton(this.handleSaveStory.bind(this));
+    }
+  }
+
+  async isStorySaved() {
+    return !!(await this._dbModel.getSavedStory(this.#storyId));
+  }
+
+  async handleSaveStory() {
+    try {
+      if (!this.#currentStoryData) {
+        this._view.showSaveFailed('Gagal menyimpan: data cerita tidak tersedia.');
+        return;
+      }
+      await this._dbModel.putSavedStory(this.#currentStoryData);
+      this._view.showSaveSuccess('Cerita berhasil disimpan ke koleksi!');
+      await this.renderSaveRemoveButton();
+    } catch (error) {
+      this._view.showSaveFailed(`Gagal menyimpan cerita: ${error.message}`);
+    }
+  }
+
+  async handleRemoveStory() {
+    try {
+      await this._dbModel.deleteSavedStory(this.#storyId);
+      this._view.showSaveSuccess('Cerita berhasil dihapus dari koleksi.');
+      await this.renderSaveRemoveButton();
+    } catch (error) {
+      this._view.showSaveFailed(`Gagal menghapus cerita: ${error.message}`);
     }
   }
 }
@@ -154,7 +233,7 @@ export default class DetailStoryPage {
       view.showError('ID cerita tidak ditemukan di URL.');
       return;
     }
-    const presenter = new DetailStoryPagePresenter(storyApiInstance, view);
+    const presenter = new DetailStoryPagePresenter(storyApiInstance, storyDb, view);
     await presenter.loadStoryDetail(storyId);
   }
 }
