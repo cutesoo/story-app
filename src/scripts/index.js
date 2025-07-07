@@ -13,7 +13,7 @@ const app = new App({
 window.addEventListener('DOMContentLoaded', () => {
   app.renderPage();
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.bundle.js')
+    navigator.serviceWorker.register('/story-app/sw.bundle.js')
       .then(registration => {
         console.log('Service Worker registered with scope:', registration.scope);
       })
