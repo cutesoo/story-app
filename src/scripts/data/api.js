@@ -80,15 +80,11 @@ class StoryApi {
 
     try {
       const response = await fetch(requestUrl, {
-        headers: {
-          'Authorization': `Bearer ${this.#token}`,
-        },
+        headers: { 'Authorization': `Bearer ${this.#token}`, },
       });
       const responseJson = await response.json();
 
-      if (responseJson.error) {
-        throw new Error(responseJson.message);
-      }
+      if (responseJson.error) { throw new Error(responseJson.message); }
 
       stories = responseJson.listStory;
       await storyDb.deleteAllFetchedStories();
@@ -98,7 +94,6 @@ class StoryApi {
 
     } catch (error) {
       console.error('Failed to fetch stories from network:', error);
-
       if (error.message.includes('Authentication is required') || error.message.includes('Unauthorized')) {
         throw error;
       }
@@ -116,31 +111,23 @@ class StoryApi {
 
   async getDetailStory(id) {
     const requestUrl = `${this.#baseUrl}/stories/${id}`;
-
     try {
       const response = await fetch(requestUrl, {
-        headers: {
-          'Authorization': `Bearer ${this.#token}`,
-        },
+        headers: { 'Authorization': `Bearer ${this.#token}`, },
       });
       const responseJson = await response.json();
-      if (responseJson.error) {
-        throw new Error(responseJson.message);
-      }
+      if (responseJson.error) { throw new Error(responseJson.message); }
       await storyDb.putAllFetchedStories([responseJson.story]);
       return responseJson.story;
-
     } catch (error) {
       console.error(`Failed to fetch detail story ${id} from network:`, error);
-
       if (error.message.includes('Authentication is required') || error.message.includes('Unauthorized')) {
         throw error;
       }
-
       console.log(`Attempting to retrieve detail story ${id} from IndexedDB (fetched-stories)...`);
       const cachedStory = await storyDb.getFetchedStory(id);
       if (cachedStory) {
-        console.log(`Detail story ${id} retrieved from IndexedDB.`);
+        console.log(`Detail story ${id} retrieved from IndexedDB (fetched-stories).`);
         return cachedStory;
       } else {
         throw new Error('Tidak ada koneksi internet dan detail cerita tidak tersimpan secara offline.');
