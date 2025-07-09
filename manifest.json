@@ -9,7 +9,7 @@
   "icons": [
     {
       "src": "/story-app/favicon.png",     
-      "sizes": "512x512",                  
+      "sizes": "40x40",                  
       "type": "image/png"
     },
     {
@@ -19,7 +19,7 @@
       "purpose": "any"
     },
     {
-      "src": "/story-app/images/icons/icon-x96.png",
+      "src": "/story-app/images/icons/maskable-icon-x96.png",
       "sizes": "96x96",
       "type": "image/png",
       "purpose": "any"
@@ -50,12 +50,12 @@
     }
   ],
   "screenshots": [
-    { "src": "/story-app/images/screenshots/CityCareApp_001.png", "sizes": "1920x1043", "type": "image/png", "form_factor": "wide" },
-    { "src": "/story-app/images/screenshots/CityCareApp_002.png", "sizes": "1920x1043", "type": "image/png", "form_factor": "wide" },
-    { "src": "/story-app/images/screenshots/CityCareApp_003.png", "sizes": "1920x1043", "type": "image/png", "form_factor": "wide" },
-    { "src": "/story-app/images/screenshots/CityCareApp_004.png", "sizes": "1080x2280", "type": "image/png", "form_factor": "narrow" },
-    { "src": "/story-app/images/screenshots/CityCareApp_005.png", "sizes": "1080x2280", "type": "image/png", "form_factor": "narrow" },
-    { "src": "/story-app/images/screenshots/CityCareApp_006.png", "sizes": "1080x2280", "type": "image/png", "form_factor": "narrow" }
+    { "src": "/story-app/images/screenshots/CityCareApp_001.png", "sizes": "1280x695", "type": "image/png", "form_factor": "wide" },
+    { "src": "/story-app/images/screenshots/CityCareApp_002.png", "sizes": "1280x695", "type": "image/png", "form_factor": "wide" },
+    { "src": "/story-app/images/screenshots/CityCareApp_003.png", "sizes": "1280x695", "type": "image/png", "form_factor": "wide" },
+    { "src": "/story-app/images/screenshots/CityCareApp_004.png", "sizes": "600x1267", "type": "image/png", "form_factor": "narrow" },
+    { "src": "/story-app/images/screenshots/CityCareApp_005.png", "sizes": "600x1267", "type": "image/png", "form_factor": "narrow" },
+    { "src": "/story-app/images/screenshots/CityCareApp_006.png", "sizes": "600x1267", "type": "image/png", "form_factor": "narrow" }
   ],
   "shortcuts": [
     {
