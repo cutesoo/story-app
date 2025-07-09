@@ -13,50 +13,8 @@
       "type": "image/png"
     },
     {
-      "src": "/story-app/images/icons/maskable-icon-x48.png", 
-      "sizes": "48x48",                 
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/story-app/images/icons/maskable-icon-x72.png", 
-      "sizes": "72x72",                 
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/story-app/images/icons/maskable-icon-x96.png", 
-      "sizes": "96x96",                 
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/story-app/images/icons/maskable-icon-x144.png", 
-      "sizes": "144x144",                
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/story-app/images/icons/maskable-icon-x192.png", 
-      "sizes": "192x192",                
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/story-app/images/icons/maskable-icon-x384.png", 
-      "sizes": "384x384",                
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/story-app/images/icons/maskable-icon-x512.png", 
-      "sizes": "512x512",                
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/story-app/images/icons/icon-x72.png",
-      "sizes": "72x72",
+      "src": "/story-app/images/icons/icon-x144.png",
+      "sizes": "144x144",
       "type": "image/png",
       "purpose": "any"
     },
@@ -67,43 +25,37 @@
       "purpose": "any"
     },
     {
-      "src": "/story-app/images/icons/icon-x144.png",
-      "sizes": "144x144",
+      "src": "/story-app/images/icons/maskable-icon-x48.png",
+      "sizes": "48x48",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "maskable"
     },
     {
-      "src": "/story-app/images/icons/icon-x192.png",
+      "src": "/story-app/images/icons/maskable-icon-x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "maskable"
     },
     {
-      "src": "/story-app/images/icons/icon-x384.png",
+      "src": "/story-app/images/icons/maskable-icon-x384.png",
       "sizes": "384x384",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "maskable"
     },
     {
-      "src": "/story-app/images/icons/icon-x512.png",
+      "src": "/story-app/images/icons/maskable-icon-x512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "png",
+      "purpose": "maskable"
     }
   ],
   "screenshots": [
-    {
-      "src": "/story-app/images/screenshots/CityCareApp_001.png",
-      "sizes": "1920x1043",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/story-app/images/screenshots/CityCareApp_004.png",
-      "sizes": "1080x2280",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
+    { "src": "/story-app/images/screenshots/CityCareApp_001.png", "sizes": "1920x1043", "type": "image/png", "form_factor": "wide" },
+    { "src": "/story-app/images/screenshots/CityCareApp_002.png", "sizes": "1920x1043", "type": "image/png", "form_factor": "wide" },
+    { "src": "/story-app/images/screenshots/CityCareApp_003.png", "sizes": "1920x1043", "type": "image/png", "form_factor": "wide" },
+    { "src": "/story-app/images/screenshots/CityCareApp_004.png", "sizes": "1080x2280", "type": "image/png", "form_factor": "narrow" },
+    { "src": "/story-app/images/screenshots/CityCareApp_005.png", "sizes": "1080x2280", "type": "image/png", "form_factor": "narrow" },
+    { "src": "/story-app/images/screenshots/CityCareApp_006.png", "sizes": "1080x2280", "type": "image/png", "form_factor": "narrow" }
   ],
   "shortcuts": [
     {
@@ -113,7 +65,20 @@
       "url": "/story-app/#/add-story",
       "icons": [
         {
-          "src": "/story-app/images/icons/add-x512.png", 
+          "src": "/story-app/images/icons/add-x512.png",
+          "type": "image/png",
+          "sizes": "512x512"
+        }
+      ]
+    },
+    {
+      "name": "Cerita Tersimpan",
+      "short_name": "Saved Stories",
+      "description": "Melihat daftar cerita yang tersimpan.",
+      "url": "/story-app/#/saved-stories",
+      "icons": [
+        {
+          "src": "/story-app/images/icons/bookmark-x512.png",
           "type": "image/png",
           "sizes": "512x512"
         }
